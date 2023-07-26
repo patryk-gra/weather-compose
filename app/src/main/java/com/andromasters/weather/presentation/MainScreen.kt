@@ -1,11 +1,15 @@
 package com.andromasters.weather.presentation
 
+import android.app.Activity
+import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,6 +33,12 @@ fun MainScreen() {
     fun fadeOutAnimation() = fadeOut(animationSpec = tween(2000))
 
     val navController = rememberNavController()
+    val context: Context = LocalContext.current
+
+    BackHandler { //poor resolution of finishing activity on Android 13 to run splash screen first
+        (context as? Activity)?.finish()
+    }
+
     NavHost(
         navController,
         startDestination = Screen.Splash.name,
